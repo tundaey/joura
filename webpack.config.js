@@ -5,13 +5,13 @@ var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
   inject: 'body'
 })
 
-odule.exports = {
+module.exports = {
     entry: ['./app/index.js'],
     output: {
         path : __dirname + '/dist',
         filename: 'index_bundle.js'
     },
-    modules: {
+    module: {
         loaders: [
             {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
             {test: /\.css$/, loader: 'style-loader!css-loader'}

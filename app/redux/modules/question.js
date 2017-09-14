@@ -1,4 +1,4 @@
-import {saveQuestion} from 'helpers/api'
+import {saveQuestion, fetchQuestion} from 'helpers/api'
 import {closeModal,removeSubmitting, submitQuestion} from './modal'
 import {addSingleUsersQuestion} from './userQuestions'
 
@@ -45,7 +45,7 @@ export function addQuestion(question){
 export function addMultipleQuestions(questions){
     return {
         type: ADD_MULTIPLE_QUESTIONS,
-        question: questions
+        questions: questions
     }
 }
 
@@ -66,12 +66,21 @@ export function questionFanout(question){
     }
 }
 
+export function fetchAndHandleQuestion(questionId){
+    return function(dispatch){
+        dispatch(fetchingQuestion())
+        fetchQuestion(questionId)
+        .then((question)=> dispatch(fetchingQuestionSuccess(question)))
+        .catch((error)=> dispatch(fetchingQuestionError(error)))
+    }
+}
+
 const initialState = {
     isFetching: true,
     error: ''
 }
 
-export default function question(state =initialState, action){
+export default function question(state = initialState, action){
     switch(action.type){
         case FETCHING_QUESTION:
             return {

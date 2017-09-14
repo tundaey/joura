@@ -33,30 +33,9 @@ function NavLinks({isAuthed, user}){
     return (
         isAuthed === true
         ? <div className="navbar-start">
-            <div className="navbar-item has-dropdown is-hoverable">
-                <Link className="navbar-link is-active" to="/">{'Docs'}</Link>
-                <div className="navbar-dropdown ">
-                    <a className="navbar-item " href="/documentation/overview/start/">
-                        Overview
-                    </a>
-                    <a className="navbar-item is-active" href="http://bulma.io/documentation/components/breadcrumb/">
-                    Components
-                    </a>
-                    <hr className="navbar-divider"/>
-                    <div className="navbar-item">
-                        <div>
-                            <p className="is-size-6-desktop">
-                                <strong className="has-text-info">0.5.1</strong>
-                            </p>
-                            <small>
-                            <a className="bd-view-all-versions" href="/versions">View all versions</a>
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <Link className="navbar-item" to="/">{'Expo'}</Link>
-            <Link className="navbar-item" to="/">{'Love'}</Link>
+            <Link className="navbar-item" to="/">{'Feed'}</Link>
+            <Link className="navbar-item" to="/">{'My Questions'}</Link>
+            <Link className="navbar-item" to="/">{'My Replies'}</Link>
         </div>
         : null
 

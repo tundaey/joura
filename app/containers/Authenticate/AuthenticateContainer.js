@@ -24,14 +24,14 @@ class AuthenticateContainer extends React.Component {
 
     handleAuth(e){
         e.preventDefault()
-        this.props.fetchAndHandleUser().then(()=> this.context.router.replace('feed'))
+        this.props.fetchAndHandleAuthedUser().then(()=> this.context.router.replace('feed'))
     }
 }
 
 AuthenticateContainer.propTypes = {
     isFetching : PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
-    fetchAndHandleUser : PropTypes.func.isRequired,
+    fetchAndHandleAuthedUser : PropTypes.func.isRequired,
 }
 
 AuthenticateContainer.contextTypes = {

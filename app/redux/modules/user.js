@@ -1,3 +1,5 @@
+import {fetchUser} from 'helpers/api'
+
 import auth, {logout, saveUser} from 'helpers/auth';
 import {formatUserInfo} from 'helpers/utils'
 
@@ -49,7 +51,7 @@ export function fetchingUserSuccess(user, uid, timestamp){
     }
 }
 
-export function fetchAndHandleUser(){
+export function fetchAndHandleAuthedUser(){
     return function(dispatch){
         dispatch(fetchingUser())
         return auth().then(({user, credential})=> {
@@ -64,6 +66,15 @@ export function fetchAndHandleUser(){
             console.warn('error', error)
            dispatch(fetchingUserFailure())
         })
+    }
+}
+
+export function fetchAndHandleUser(uid){
+    return function(dispatch, getState){
+        dispatch(fetchingUser())
+        return fetchUser(uid)
+        .then((user) => dispatch(fetchingUserSuccess(uid, user, Date.now())))
+        .catch((error)=> dispatch(fetchingUserFailure(error)))
     }
 }
 

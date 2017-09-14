@@ -1,3 +1,6 @@
+import {fetchUserQuestions} from 'helpers/api'
+import {addMultipleQuestions} from 'redux/modules/question'
+
 const FETCHING_USERS_QUESTIONS = 'FETCHING_USERS_QUESTIONS'
 const FETCHING_USERS_QUESTIONS_ERROR = 'FETCHING_USERS_QUESTIONS_ERROR'
 const FETCHING_USERS_QUESTIONS_SUCCESS = 'FETCHING_USERS_QUESTIONS_SUCCESS'
@@ -31,6 +34,21 @@ export function addSingleUsersQuestion(uid, questionId){
         type: ADD_SINGLE_USERS_QUESTIONS,
         uid,
         questionId
+    }
+}
+
+export function fetchAndHandleUserQuestions(uid){
+    return function(dispatch){
+        dispatch(fetchingUsersQuestions(uid))
+
+        fetchUserQuestions(uid)
+        .then((questions)=> dispatch(addMultipleQuestions(questions)))
+        .then(({questions})=> dispatch(fetchingUsersQuestionsSuccess(
+            uid,
+            Object.keys(questions).sort((a,b)=> questions[b].timestamp - questions[a].timestamp ),
+            Date.now()
+        )))
+        .catch((error) => dispatch(fetchingUsersQuestionsError(error)))
     }
 }
 
@@ -76,7 +94,7 @@ export default function usersQuestions(state = initialState, action){
                 isFetching: false,
                 [action.uid]: {
                     lastUpdated: action.lastUpdated,
-                    duckIds: action.questionIds
+                    questionIds: action.questionIds
                 }
             }
         case ADD_SINGLE_USERS_QUESTIONS:
